@@ -19,21 +19,6 @@ plot_path_2 = './Figure_5_Stratified analysis_auc.pdf'
 plot_path_3 = './Figure_5_Stratified analysis_prauc.pdf'
 
 #### Functions ####
-c_index_test = function (concordance.1, concordance.2, r) {
-  if (concordance.1$n != concordance.2$n) {stop("the concordance indices are computed from different number of samples!")}
-  if (is.na(concordance.1$var) || is.na(concordance.2$var)) {stop("the concordance indices must be computed using method noether!")}
-  if (is.na(r)) {r = 0}
-  
-  n = concordance.1$n
-  total_var = concordance.1$var + concordance.2$var - 2 * r * sqrt(concordance.2$var * concordance.2$var)
-  
-  if (total_var > 1e-15) {
-    t.stat = (concordance.1$concordance - concordance.2$concordance)/sqrt(concordance.1$var + concordance.2$var - 2 * r * sqrt(concordance.2$var * concordance.2$var))
-    diff.ci.p = pt(q = t.stat, df = n - 1, lower.tail = TRUE)
-    
-    return(diff.ci.p)
-  } else {return(1)}
-}
 
 #### Settings ####
 set.seed(0)
