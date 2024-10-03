@@ -454,4 +454,4 @@ final_p = final_p + draw_plot_label(c("Internal validation set", "External valid
 
 # pdf(plot_path_4, width = 10, height = 8)
 # print(final_p)
-# dev.off()
+#  dev.off()
