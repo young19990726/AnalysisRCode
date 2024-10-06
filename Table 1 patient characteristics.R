@@ -67,4 +67,17 @@ sub_data = patient_data[patient_data[,group_name.1] %in% names(DATASET_NAME)[2],
 table_list[[4]] = Table1(X = sub_data[, group_name.2], Y.matrix = sub_data[, c(group_name.2, group_name.3, intrested_var)], x.name = "Thoracic aortic aneurysm")
 table_list[[5]] = Table1(X = sub_data[, group_name.3], Y.matrix = sub_data[, c(group_name.2, group_name.3, intrested_var)], x.name = "Abdominal aortic aneurysm")
 
+for (i in 1:length(table_list)) {
+  total_table = table_list[[i]]
+  for (j in 1:nrow(total_table)) {
+    if (total_table[j, 'p-value'] == '') {
+      total_table[j, 'p-value'] = total_table[j-1, 'p-value']
+    }
+  }
+  save_pos = total_table[nrow(total_table):1, 'Variable'] %>% gsub('\\:.*', '', .) %>% duplicated()
+  save_pos[length(save_pos):(length(save_pos)-10)] = FALSE
+  total_table = total_table[!save_pos[length(save_pos):1],]
+  table_list[[i]] = total_table
+}
+
 Table2doc(table_list = table_list, filename = table_path)
