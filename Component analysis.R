@@ -222,7 +222,7 @@ for (j in 1:length(intrested_var_list)) {
   
 }
 
-thoracic_p_auc_list = list()
+p_auc_list = list()
 
 auc_data = data.frame(name = c(paste0('combine_', 1:4), x_name, intrested_var_list[[3]][['var']]),
                       show_name = c(paste0('Xgboost[', names(intrested_var_list), ']'), 'DLM prediction', intrested_var_list[[3]][['name']]),
@@ -299,6 +299,7 @@ for (SET in names(DATASET_NAME)) {
   p_auc = p_auc + geom_errorbar(aes(ymin = auc.l, ymax= auc.u), width = .3, position = position_dodge(.9), color = '#303030A0')
   p_auc = p_auc + theme_classic()
   p_auc = p_auc + ylab("AUC (95% CI)") + xlab("") + ggtitle(DATASET_NAME[SET]) + labs(fill = '')
+  # p_auc = p_auc + ylab("C index (95% CI)") + xlab("") + ggtitle(DATASET_NAME[SET]) + labs(fill = '')
   p_auc = p_auc + scale_y_continuous(limits = c(0, 1.05), breaks = c(0, 0.2, 0.4, 0.6, 0.8, 1), labels = paste0(seq(0, 100, by = 20), '%'))
   p_auc = p_auc + scale_x_discrete(breaks = sub_auc_data[, 'x'], labels = sub_auc_data[, 'show_name']) 
   p_auc = p_auc + annotate('text', sub_auc_data[, 'x'], 0.02, label = sub_auc_data[, 'txt'], size = 3.5, hjust = 0, colour = 'black', angle = 90, fontface = 1)
@@ -310,12 +311,12 @@ for (SET in names(DATASET_NAME)) {
                         axis.text.x = element_text(hjust = 1, angle = 45, size = 12, face = 1),
                         axis.text.y = element_text(angle = 0, size = 12, face = 1)) 
   
-  thoracic_p_auc_list[[SET]] = p_auc
+  p_auc_list[[SET]] = p_auc
   
 }
 
 #### Merge plots ####
-auc_p.1 = arrangeGrob(thoracic_p_auc_list[[1]], thoracic_p_auc_list[[2]], ncol = 2)
+auc_p.1 = arrangeGrob(p_auc_list[[1]], p_auc_list[[2]], ncol = 2)
 
 final_p = ggdraw()
 final_p = final_p + draw_plot(XGB_list[[1]], x = -0.01, y = 0.5, width = 0.31, height = 0.48)
