@@ -377,6 +377,7 @@ for (SET in names(DATASET_NAME)) {
       
       x_name = x_name_list[j]
       
+      # cut_list 要從 sub_model_info <- model_info[model_info[, 'label'] %in% var_of_interested,] 找 best_cut.1
       if (cut_list[j] %in% NA) {
         
         roc_curve.valid = roc(response = sub_valid_data[, y_name], predictor = sub_valid_data[, x_name])
